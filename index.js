@@ -7,7 +7,10 @@ require('dotenv').config()
 const app = express()
 // DATABASE CONNECTION
 DB_URI = process.env.DB_URI
-mongoose.connect(DB_URI)
+db = mongoose.connection
+mongoose.connect(DB_URI, {useNewUrlParser: true})
+db.once('open', () => console.log('connected to db'))
+db.on('error', (err) => console.log(err))
 
 // MIDDLE WARES
 app.use(cors())
