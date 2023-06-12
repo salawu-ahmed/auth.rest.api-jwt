@@ -1,5 +1,6 @@
 const User = require('../models/Users')
 
+
 const handleError = (err) => {
     console.log(err.message, err.code);
     let errors = {email:'', password:''}
