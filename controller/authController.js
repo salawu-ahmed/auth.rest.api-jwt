@@ -1,5 +1,24 @@
 const User = require('../models/Users')
 
+const handleError = (err) => {
+    console.log(err.message, err.code);
+    let errors = {email:'', password:''}
+
+    //duplicate key error 
+    if(err.code === 11000){
+        errors.email = 'that email is already registered'
+        return errors
+    }
+    // validaion errors 
+    if(err.message.includes('user validation failed')){
+        // console.log(Object.values(err.errors));  returns an array
+        Object.values(err.errors).forEach( ({properties}) => {
+            errors[properties.path] = properties.message
+        })
+    }
+    return errors
+}
+
 const signup_get = (req, res) =>{
     res.send('signup page')
 }
@@ -13,8 +32,8 @@ const signup_post = async (req, res) =>{
         res.status(201).json(newUser)
     }
     catch(err){
-        console.log(err);
-        res.status(400).send('error: user not created')
+        const errors = handleError(err)
+        res.status(401).json({errors})
     }
 }
 const login_post = (req, res) =>{
