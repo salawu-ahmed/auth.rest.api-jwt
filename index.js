@@ -12,9 +12,14 @@ mongoose.connect(DB_URI, {useNewUrlParser: true})
 db.once('open', () => console.log('connected to db'))
 db.on('error', (err) => console.log(err))
 
+// ROUTES
+const authRoutes = require('./routes/authRoutes')
+
 // MIDDLE WARES
 app.use(cors())
 app.use(bodyParser.json())
+app.use('/', authRoutes)
 
-PORT = process.env.PORT || 4000
+
+PORT = process.env.CONNECTION_PORT || 4000
 app.listen(PORT, console.log(`server is running on port ${PORT}`))
