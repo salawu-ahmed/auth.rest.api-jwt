@@ -27,5 +27,16 @@ userSchema.pre('save', async function(next){
     // this.password refers to the password the user inputs 
     // the object is created but is not saved hence the password in the obj is what use inputted
 
+userSchema.statics.login = async function(email, password) {
+    const isUser = await this.findOne({email})
+    if(isUser){
+        const passwordMatch = await bcrypt.compare(password, isUser.password)
+        if(passwordMatch){
+            return isUser
+        } 
+        throw Error ("incorrect password")
+    }
+    throw Error ("this user does not exist")
+}
 const userModel = mongoose.model('user', userSchema)
 module.exports = userModel

@@ -30,12 +30,15 @@ const createToken = (id) => {
     })
 }
 
+
+// ROUTE CONTROLLERS
 const signup_get = (req, res) =>{
     res.render('pages/signup.ejs')
 }
 const login_get = (req, res) =>{
     res.render('pages/login.ejs')
 }
+
 const signup_post = async (req, res) =>{
     const {email, password} = req.body
     try{
@@ -49,9 +52,18 @@ const signup_post = async (req, res) =>{
         res.status(401).json({errors})
     }
 }
-const login_post = (req, res) =>{
+
+const login_post = async (req, res) =>{
     const {email, password} = req.body
-    res.send(`${password} with email:${email} has logged in`)
+    try{
+        const user = await User.login(email, password)
+        const token = createToken(user._id)
+        res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge * 1000})
+        res.status(200).json({userId: user._id})
+    }
+    catch(err){
+        res.status(400).json({})
+    }
 }
 
 module.exports = { signup_get, signup_post, login_get, login_post}
