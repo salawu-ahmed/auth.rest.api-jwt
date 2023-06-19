@@ -36,7 +36,7 @@ userSchema.statics.login = async function(email, password) {
         } 
         throw Error ("incorrect password")
     }
-    throw Error ("this user does not exist")
+    throw Error ("incorrect email")
 }
 const userModel = mongoose.model('user', userSchema)
 module.exports = userModel
