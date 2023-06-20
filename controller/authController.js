@@ -42,6 +42,14 @@ const createToken = (id) => {
 
 
 // ROUTE CONTROLLERS
+const get_home = (req, res) =>{
+    res.render('pages/home.ejs')
+}
+
+const get_protected = (req, res) =>{
+    res.render('pages/home.ejs')
+}
+
 const signup_get = (req, res) =>{
     res.render('pages/signup.ejs')
 }
@@ -84,4 +92,4 @@ const logout = (req, res) => {
     res.redirect('/')
 }
 
-module.exports = { signup_get, signup_post, login_get, login_post, logout }
+module.exports = { get_home, signup_get, signup_post, login_get, login_post, logout, get_protected }

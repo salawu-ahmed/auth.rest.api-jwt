@@ -8,14 +8,14 @@ const requireAuth = (req, res, next) => {
     if(token){
         jwt.verify(token, JWT_SECRET, (err, decodedToken) => {
             if(err){
-                res.redirect('/')
+                res.redirect('../login/')
             }else{
                 next()
             }
         })
     }
 
-    res.redirect('/')
+    res.redirect('./login')
 }
 
 module.exports = { requireAuth }
